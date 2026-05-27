@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ken Wu — Resume</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #1a1a18;
+      --muted:  #6b6b66;
+      --faint:  #e8e5de;
+      --accent: #2e5c3e;
+      --bg:     #faf8f4;
+      --serif:  'DM Serif Display', Georgia, serif;
+      --sans:   'DM Sans', system-ui, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .page { max-width: 760px; margin: 0 auto; }
+
+    /* ── LANGUAGE TOGGLE ── */
+    #lang-btn {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 100;
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      border-radius: 3px;
+      padding: 0.45rem 1rem;
+      font-family: var(--sans);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    #lang-btn:hover { background: var(--accent); }
+    #lang-btn:active { transform: scale(0.97); }
+
+    /* ── HEADER ── */
+    header {
+      border-bottom: 1.5px solid var(--ink);
+      padding-bottom: 2rem;
+      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 1rem;
+    }
+
+    .name {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 7vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .name em { font-style: italic; color: var(--accent); }
+
+    .tagline {
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .contact-list {
+      list-style: none;
+      text-align: right;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 2;
+    }
+    .contact-list a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 0.5px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .contact-list a:hover { border-color: var(--accent); }
+
+    /* ── SECTIONS ── */
+    .section {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 0 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .section-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 3px;
+      position: sticky;
+      top: 1rem;
+      height: fit-content;
+    }
+
+    /* ── EXPERIENCE ── */
+    .entry { border-top: 0.5px solid var(--faint); padding: 1.25rem 0; }
+    .entry:first-child { border-top: none; padding-top: 0; }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.2rem;
+    }
+    .entry-title { font-family: var(--serif); font-size: 1.15rem; font-weight: normal; }
+    .entry-date  { font-size: 12px; color: var(--muted); white-space: nowrap; letter-spacing: 0.04em; }
+    .entry-company { font-size: 13px; color: var(--accent); font-weight: 400; margin-bottom: 0.5rem; }
+    .entry-bullets { list-style: none; margin-top: 0.5rem; }
+    .entry-bullets li {
+      font-size: 14px; color: #444440;
+      padding-left: 1.1em; position: relative; margin-bottom: 0.25rem;
+    }
+    .entry-bullets li::before { content: '–'; position: absolute; left: 0; color: var(--muted); }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      background: #f0ede6;
+      border: 0.5px solid var(--faint);
+      border-radius: 2px;
+      padding: 0.35rem 0.75rem;
+      font-size: 13px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-entry { padding: 0.75rem 0; border-top: 0.5px solid var(--faint); }
+    .edu-entry:first-child { border-top: none; padding-top: 0; }
+    .edu-degree { font-family: var(--serif); font-size: 1.05rem; }
+    .edu-school { font-size: 13px; color: var(--accent); margin-top: 2px; }
+    .edu-year   { font-size: 12px; color: var(--muted); }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .project-card {
+      border: 0.5px solid var(--faint);
+      border-radius: 4px;
+      overflow: hidden;
+      background: white;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .project-thumb {
+      width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; background: var(--faint);
+    }
+    .project-thumb-placeholder {
+      width: 100%; aspect-ratio: 16/10;
+      display: flex; align-items: center; justify-content: center;
+      background: #f0ede6; font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .project-info { padding: 0.75rem; }
+    .project-title { font-family: var(--serif); font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .project-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .project-tags  { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; }
+    .project-tag   { font-size: 11px; background: #f0ede6; color: var(--muted); padding: 2px 8px; border-radius: 2px; }
+    .project-link  {
+      display: inline-block; margin-top: 0.5rem; font-size: 12px;
+      color: var(--accent); text-decoration: none;
+      border-bottom: 0.5px solid transparent; transition: border-color 0.2s;
+    }
+    .project-link:hover { border-color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 3rem; padding-top: 1.5rem;
+      border-top: 1.5px solid var(--ink);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
+    }
+
+    @media print {
+      body { padding: 1rem; background: white; }
+      .section-label { position: static; }
+      #lang-btn { display: none; }
+    }
+    @media (max-width: 600px) {
+      .section { grid-template-columns: 1fr; gap: 0.25rem; }
+      .section-label { margin-bottom: 0.5rem; }
+      header { grid-template-columns: 1fr; }
+      .contact-list { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LANGUAGE TOGGLE BUTTON ── -->
+<button id="lang-btn" onclick="toggleLang()">中文</button>
+
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header>
+    <div>
+      <h1 class="name">Ken <em>Wu</em></h1>
+      <p class="tagline" data-i18n="tagline"></p>
+    </div>
+    <ul class="contact-list">
+      <li><a href="mailto:1784278654ken@gmail.com">1784278654ken@gmail.com</a></li>
+      <li data-i18n="location"></li>
+      <li><a href="https://www.linkedin.com/in/ken-takoyaki/" target="_blank">linkedin.com/in/ken-takoyaki</a></li>
+      <li><a href="https://github.com/1784278654" target="_blank">github.com/1784278654</a></li>
+    </ul>
+  </header>
+
+  <!-- ── ABOUT ── -->
+  <section class="section">
+    <p class="section-label" data-i18n="label_about"></p>
+    <div class="section-body">
+      <p data-i18n="about"></p>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section class="section">
+    <p class="section-label" data-i18n="label_experience"></p>
+    <div class="section-body">
+
+      <div class="entry">
+        <div class="entry-header">
+          <h2 class="entry-title" data-i18n="job1_title"></h2>
+          <span class="entry-date">2023 – Present</span>
+        </div>
+        <p class="entry-company" data-i18n="job1_company"></p>
+        <ul class="entry-bullets">
+          <li data-i18n="job1_b1"></li>
+          <li data-i18n="job1_b2"></li>
+          <li data-i18n="job1_b3"></li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h2 class="entry-title" data-i18n="job2_title"></h2>
+          <span class="entry-date">2022 – 2023</span>
+        </div>
+        <p class="entry-company" data-i18n="job2_company"></p>
+        <ul class="entry-bullets">
+          <li data-i18n="job2_b1"></li>
+          <li data-i18n="job2_b2"></li>
+          <li data-i18n="job2_b3"></li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-header">
+          <h2 class="entry-title" data-i18n="job3_title"></h2>
+          <span class="entry-date">2021 – 2022</span>
+        </div>
+        <p class="entry-company">Atour Hotel（亚朵酒店）</p>
+        <ul class="entry-bullets">
+          <li data-i18n="job3_b1"></li>
+          <li data-i18n="job3_b2"></li>
+          <li data-i18n="job3_b3"></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── WORKS / PROJECTS ── -->
+  <section class="section">
+    <p class="section-label" data-i18n="label_works"></p>
+    <div class="section-body">
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/sandboxGameSS1.png" alt="Sandbox Survivor Game" />
+          <div class="project-info">
+            <p class="project-title" data-i18n="proj1_title"></p>
+            <p class="project-desc"  data-i18n="proj1_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag" data-i18n="team5"></span>
+            </div>
+            <a class="project-link" href="https://github.com/1784278654/TopDownSandbox" target="_blank">Github ↗</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/pokemonGameSS1.png" alt="Pokemon-like Game" />
+          <div class="project-info">
+            <p class="project-title" data-i18n="proj2_title"></p>
+            <p class="project-desc"  data-i18n="proj2_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag" data-i18n="team2"></span>
+            </div>
+            <a class="project-link" href="https://youtu.be/TBxx2tFper4" target="_blank">Youtube ↗</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/hollowKnightGameSS1.png" alt="Hollow Knight Wannabe" />
+          <div class="project-info">
+            <p class="project-title" data-i18n="proj3_title"></p>
+            <p class="project-desc"  data-i18n="proj3_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag">Unity</span>
+              <span class="project-tag">C#</span>
+              <span class="project-tag" data-i18n="solo"></span>
+            </div>
+            <a class="project-link" href="https://youtu.be/TBxx2tFper4" target="_blank">Youtube ↗</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/darkSoulsGameSS1.png" alt="Dark Souls Combat" />
+          <div class="project-info">
+            <p class="project-title" data-i18n="proj4_title"></p>
+            <p class="project-desc"  data-i18n="proj4_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag">Unreal V</span>
+              <span class="project-tag">C++</span>
+              <span class="project-tag" data-i18n="solo"></span>
+            </div>
+            <a class="project-link" href="https://github.com/1784278654/GameProduciton-Souls_Like_Combat_Game" target="_blank">Github ↗</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/puzzleGameSS1.png" alt="UE5 Puzzle Game" />
+          <div class="project-info">
+            <p class="project-title" data-i18n="proj5_title"></p>
+            <p class="project-desc"  data-i18n="proj5_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag">Unreal V</span>
+              <span class="project-tag">C++</span>
+              <span class="project-tag" data-i18n="team5"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <img class="project-thumb" src="ResumeScreenShots/AMVSS1.png" alt="AMV Fate UBW" />
+          <div class="project-info">
+            <p class="project-title">体は剣で出来ている | Fate UBW AMV</p>
+            <p class="project-desc" data-i18n="proj6_desc"></p>
+            <div class="project-tags">
+              <span class="project-tag" data-i18n="proj6_tag"></span>
+              <span class="project-tag">DaVinci Resolve</span>
+              <span class="project-tag" data-i18n="solo"></span>
+            </div>
+            <a class="project-link" href="https://www.youtube.com/watch?v=Q_PyJ_gSiAU" target="_blank">Youtube ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section class="section">
+    <p class="section-label" data-i18n="label_education"></p>
+    <div class="section-body">
+      <div class="edu-entry">
+        <p class="edu-degree" data-i18n="edu1_degree"></p>
+        <p class="edu-school">George Brown Polytechnic</p>
+        <p class="edu-year">2023 – 2026</p>
+      </div>
+      <div class="edu-entry">
+        <p class="edu-degree" data-i18n="edu2_degree"></p>
+        <p class="edu-school">University of Toronto</p>
+        <p class="edu-year">2022 – 2023</p>
+      </div>
+      <div class="edu-entry">
+        <p class="edu-degree" data-i18n="edu3_degree"></p>
+        <p class="edu-school">University of Waterloo</p>
+        <p class="edu-year">2020 – 2021</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section class="section">
+    <p class="section-label" data-i18n="label_skills"></p>
+    <div class="section-body">
+      <div class="skills-grid">
+        <span class="skill-tag">C++ / C#</span>
+        <span class="skill-tag">HTML &amp; CSS</span>
+        <span class="skill-tag">JavaScript / Python</span>
+        <span class="skill-tag">Unity / Unreal V</span>
+        <span class="skill-tag" data-i18n="skill_lang"></span>
+        <span class="skill-tag" data-i18n="skill_proto"></span>
+        <span class="skill-tag" data-i18n="skill_qa"></span>
+        <span class="skill-tag" data-i18n="skill_debug"></span>
+        <span class="skill-tag" data-i18n="skill_video"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <span>Ken Wu — 2026</span>
+    <span data-i18n="available"></span>
+  </footer>
+
+</div>
+
+<script>
+  // ── ALL TRANSLATIONS ──────────────────────────────────────────────────────
+  const translations = {
+    en: {
+      // button label shows what language you'll SWITCH TO
+      btn:            "中文",
+
+      tagline:        "Game Programmer & Creative Developer",
+      location:       "Ontario, Canada",
+
+      label_about:    "About",
+      about:          "Trilingual game designer and developer with 3 years of game development experience. Fluent in Mandarin/English; conversational Japanese with JLPT N1. Passionate about games, languages, and media. Currently seeking a team environment where I can grow as a developer.",
+
+      label_experience: "Experience",
+
+      job1_title:     "Game Developer",
+      job1_company:   "Self-employed",
+      job1_b1:        "Worked in various team settings across multiple game projects",
+      job1_b2:        "Most familiar with Unity and Unreal Engine 5",
+      job1_b3:        "Experience in playtesting and quality control",
+
+      job2_title:     "KFC Server",
+      job2_company:   "KFC, China",
+      job2_b1:        "Handled customer orders and resolved conflicts",
+      job2_b2:        "Assisted other local KFC branches during peak periods",
+      job2_b3:        "Food preparation and daily cleaning duties",
+
+      job3_title:     "Hotel Front Desk",
+      job3_company:   "Atour Hotel, China",
+      job3_b1:        "Assisted guests with check-in, logging reservations into the hotel system",
+      job3_b2:        "Answered calls and managed reservation requests",
+      job3_b3:        "Assisted with security patrols",
+
+      label_works:    "Works",
+
+      proj1_title:    "Sandbox Survivor Game",
+      proj1_desc:     "Manage resources and survive the night. Inspired by Project Zomboid.",
+      proj2_title:    "Pokémon-like Game",
+      proj2_desc:     "Turn-based combat and achievement system. Inspired by Pokémon.",
+      proj3_title:    "Hollow Knight Wannabe",
+      proj3_desc:     "Recreated movement and boss fight mechanics. Inspired by Hollow Knight.",
+      proj4_title:    "Dark Souls Combat Game",
+      proj4_desc:     "Boss arena battle with souls-like mechanics.",
+      proj5_title:    "UE5 Puzzle Game",
+      proj5_desc:     "15 stages using various puzzle mechanics.",
+      proj6_desc:     "AMV tribute to Fate/UBW.",
+      proj6_tag:      "Video",
+
+      solo:   "Solo",
+      team2:  "Team of 2",
+      team5:  "Team of 5",
+
+      label_education: "Education",
+      edu1_degree:    "Game Programming — Advanced Diploma",
+      edu2_degree:    "New Media Studies",
+      edu3_degree:    "Computer Science",
+
+      label_skills:   "Skills",
+      skill_lang:     "Trilingual",
+      skill_proto:    "Prototyping",
+      skill_qa:       "Playtesting / QA",
+      skill_debug:    "Debugging",
+      skill_video:    "Video Editing",
+
+      available:      "Available for opportunities",
+    },
+
+    zh: {
+      btn:            "English",
+
+      tagline:        "游戏程序员 & 创意开发者",
+      location:       "安大略·加拿大",
+
+      label_about:    "关于我",
+      about:          "具备3年游戏开发经验的三语开发者，熟练使用中文与英文，日语达到JLPT N1水平。热衷于游戏、语言与媒体创作，正在积极寻找能够在团队中共同成长的工作机会。",
+
+      label_experience: "工作经历",
+
+      job1_title:     "游戏开发者",
+      job1_company:   "自由职业",
+      job1_b1:        "参与多个游戏项目，具备团队协作经验",
+      job1_b2:        "熟悉 Unity 与 Unreal Engine 5 引擎",
+      job1_b3:        "具备游戏测试与质量把控经验",
+
+      job2_title:     "肯德基服务员",
+      job2_company:   "肯德基，中国",
+      job2_b1:        "负责顾客点单，妥善处理投诉与纠纷",
+      job2_b2:        "高峰期协助周边门店支援",
+      job2_b3:        "食品制备与日常清洁工作",
+
+      job3_title:     "酒店前台",
+      job3_company:   "亚朵酒店，中国",
+      job3_b1:        "协助客人办理入住，录入订单至酒店管理系统",
+      job3_b2:        "接听电话，处理预订请求",
+      job3_b3:        "参与安全巡逻工作",
+
+      label_works:    "作品展示",
+
+      proj1_title:    "沙盒生存游戏",
+      proj1_desc:     "管理资源、在夜晚中求生存。灵感来源：僵尸毁灭工程。",
+      proj2_title:    "仿宝可梦游戏",
+      proj2_desc:     "回合制战斗与成就系统。灵感来源：宝可梦。",
+      proj3_title:    "仿空洞骑士游戏",
+      proj3_desc:     "还原角色移动手感与 Boss 战机制。灵感来源：空洞骑士。",
+      proj4_title:    "魂系战斗游戏",
+      proj4_desc:     "竞技场 Boss 战，融入魂系游戏机制。",
+      proj5_title:    "UE5 解谜游戏",
+      proj5_desc:     "包含多种解谜机制，共 15 个关卡。",
+      proj6_desc:     "致敬 Fate/UBW 的 AMV 剪辑作品。",
+      proj6_tag:      "视频",
+
+      solo:   "个人项目",
+      team2:  "2人小组",
+      team5:  "5人团队",
+
+      label_education: "教育背景",
+      edu1_degree:    "游戏编程高级文凭",
+      edu2_degree:    "新媒体研究",
+      edu3_degree:    "计算机科学",
+
+      label_skills:   "技能",
+      skill_lang:     "三语能力",
+      skill_proto:    "原型开发",
+      skill_qa:       "游戏测试 / QA",
+      skill_debug:    "调试",
+      skill_video:    "视频剪辑",
+
+      available:      "正在寻找工作机会",
+    }
+  };
+
+  // ── ENGINE: apply the chosen language to every data-i18n element ──────────
+  let currentLang = 'en';
+
+  function applyLang(lang) {
+    const t = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.getElementById('lang-btn').textContent = t.btn;
+    document.documentElement.lang = lang;
+  }
+
+  function toggleLang() {
+    currentLang = currentLang === 'en' ? 'zh' : 'en';
+    applyLang(currentLang);
+  }
+
+  // Run on page load
+  applyLang('en');
+</script>
+</body>
+</html>
